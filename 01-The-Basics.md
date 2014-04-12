@@ -85,20 +85,18 @@ console.log("\u{20BB7}");     // "𠮷"
 
 使用扩展转义序列，正确的字符会被包含在字符串中。
 
-W>请确保您只在一个支持ECMAScript 6的环境中使用这个新的转义序列。在所有其他环境中，这样做会导致一个语法错误。你可能需要检查环境是否支持扩展转义序列功能，可以使用以下函数来检测：
-W>
-W> ```js
-W> ~~~~~~~~
-W> function supportsExtendedEscape() {
-W>     try {
-W>         "\u{00FF1}";
-W>         return true;
-W>     } catch (ex) {
-W>         return false;
-W>     }
-W> }
-W> ~~~~~~~~
-W> ```
+>请确保您只在一个支持ECMAScript 6的环境中使用这个新的转义序列。在所有其他环境中，这样做会导致一个语法错误。你可能需要检查环境是否支持扩展转义序列功能，可以使用以下函数来检测：
+```js
+    function supportsExtendedEscape() {
+     try {
+         "\u{00FF1}";
+         return true;
+     } catch (ex) {
+         return false;
+     }
+    }
+```
+>
 
 ### normalize() 方法
 
