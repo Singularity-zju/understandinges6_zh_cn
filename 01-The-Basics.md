@@ -437,7 +437,93 @@ const age = 30;
 
 
 
+## 数字和数学
+
+TODO：介绍
+
+### 八进制和二进制字面量
+
+ECMAScript 5 试图通过在`paseInt()`和strict mode这两处移除之前引入的八进制整数字面量符号来简化一些常见的数值错误。在ECMAScript 3和更早的版本中，八进制数使用一个`0`后跟任意数量的数字来表示。For example:
+
+```js
+// ECMAScript 3
+var number = 071;       // 57 in decimal
+
+var value1 = parseInt("71");    // 71
+var value2 = parseInt("071");   // 57
+```
+
+许多开发者对于这一版本的八进制字面量数字表示感到疑惑，也因为对于前导零在不同地方所产生的不同影响的误解而犯下了许多错误。最令人震惊的是`parseInt()`，在其中前导零意味着该值将被视为八进制而不是十进制。这也导致了Douglas Crockford 的第一个JSLint的规则之一：始终使用`parseInt()`函数的第二个参数来指定字符串应该怎样被解释。
+
+ECMAScript 5减少了对八进制数字的使用。首先，`parseInt()`方法已经被更改，因此它在没有第二个参数时会忽略第一个参数的前导零。这意味着数字不再会被意外地视为八进制。第二个变化是去除了在严格模式下的八进制字面量符号。在严格模式下尝试使用一个八进制字面量会导致一个语法错误。
+
+```js
+// ECMAScript 5
+var number = 071;       // 57 in decimal
+
+var value1 = parseInt("71");        // 71
+var value2 = parseInt("071");       // 71
+var value3 = parseInt("071", 8);    // 57
+
+function getValue() {
+    "use strict";
+    return 071;     // syntax error
+}
+```
+
+通过引入这两个变化，ECMAScript 5尝试消除了很多与八进制字面量相关的混乱和错误。
+
+ECMAScript 6又更进了一步，它重新采用八进制字面量符号，以及一个二进制字面量符号。这两个符号通过在值的前面加上`0x`或`0X`来代表十六进制字面量符号。新的八进制字面量格式以`0o`或`0O`而新的二进制字面量格式开始于`0b`或`0B`。每个字面量类型后面必须跟一个或多个数字，0-7为八进制，0-1二进制。如下例：
+
+```js
+// ECMAScript 6
+var value1 = 0o71;      // 57 in decimal
+var value2 = 0b101;     // 5 in decimal
+```
+
+添加这两个字面量类型将允许JavaScript开发人员快速，轻松地引入包括二进制，八进制，十进制和十六进制格式在内的数字值，这对于某些类型的数学运算来说是非常重要的。
+
+`parseInt()`方法不会处理看起来像八进制或二进制字面量的字符串：
+
+```js
+console.log(parseInt("0o71"));      // 0
+console.log(parseInt("0b101"));     // 0
+```
+
+然而，`Number()` 函数则会正确地转换八进制或二进制字面量的字符串：
+
+```js
+console.log(Number("0o71"));      // 57
+console.log(Number("0b101"));     // 5
+```
+
+当使用八进制或二进制字面量字符串时，一定要了解您的使用情况，并使用最适当的方法将其转换为数字值。
+
+## 更多
+
+本章可能的内容：
+
+*`Number`中引入的新方法
+
+|方法|说明|
+| -------- | ------------- |
+|`Math.imul(x, y)`|两个数字的快速32位乘法。|
+|`Math.log10(x)`| TODO |
+|`Math.log2(x)`| TODO |
+|`Math.log1p(x)`| TODO |
+|`Math.expm1(x)`| TODO |
+|`Math.cosh(x)`| TODO |
+|`Math.sinh(x)`| TODO |
+|`Math.tanh(x)`| TODO |
+|`Math.acosh(x)`| TODO |
+|`Math.asinh(x)`| TODO |
+|`Math.atanh(x)`| TODO |
+|`Math.hypot(...values)`| TODO |
+|`Math.trunc(x)`|删除小数位数的浮点数并返回一个整数。|
+|`Math.sign(x)`|如果`x`是+0或-0，返回-1，如果`x`是正数，则返回1|
+|`Math.fround(x)`| TODO |
 
 
+##小结
 
-## Statements
+待补充
