@@ -441,8 +441,8 @@ TODO：介绍
 
 ### 八进制和二进制字面量
 
-<<<<<<< HEAD
-ECMAScript 5 试图通过在`paseInt()`和strict mode这两处移除之前引入的八进制整数字面量符号来简化一些常见的数值错误。在ECMAScript 3和更早的版本中，八进制数使用一个`0`后跟任意数量的数字来表示。For example:
+
+ECMAScript 5 试图通过在`paseInt()`和strict mode这两处移除之前引入的八进制整数字面量符号来简化一些常见的数值错误。在ECMAScript 3和更早的版本中，八进制数使用一个`0`后跟任意数量的数字来表示。例如:
 
 ```js
 // ECMAScript 3
@@ -526,6 +526,4 @@ console.log(Number("0b101"));     // 5
 ##小结
 
 待补充
-=======
-## Statements
->>>>>>> 6b21462b566aec55f207151809abd0452d0a1ee6
+
