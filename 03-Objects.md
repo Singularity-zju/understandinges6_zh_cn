@@ -1,16 +1,19 @@
-# Objects
+# 对象 （Objects）
 
 A lot of ECMAScript 6 focused on improving the utility of objects. The focus makes sense given that nearly every value in JavaScript is represented by some type of object. Additionally, the number of objects used in an average Javascript program continues to increase, meaning that developers are writing more objects all the time. With more objects comes the necessity to use them more effectively.
-
+ECMAScript 6的很多方面都致力于改善对象的使用。『』。此外，平均每个JavaScript程序中对象的数量持续增长，意味着开发者每时每刻在写更多的对象。更多的对象带来了更有效率的使用它们的必要性。
 ECMAScript 6 improves objects in a number of ways, from simple syntax to new ways of manipulating and interacting with objects.
+ECMAScript 6 通过一些方式改善了对象， 从简洁的语法到新的操作以及与对象的交互的方式。
 
-## Object Literal Extensions
+## 对象字面量扩展 （Object Literal Extensions）
 
 One of the most popular patterns in JavaScript is the object literal. It's the syntax upon which JSON is built and can be seen in nearly every JavaScript file on the Internet. The reason for the popularity is clear: a succinct syntax for creating objects that otherwise would take several lines of code to accomplish. ECMAScript 6 recognized the popularity of the object literal and extends the syntax in several ways to make object literals more powerful and even more succinct.
+在JavaScript中使用最多的模式之一是对象字面量。对象字面量的语法结构建立在JSON的语法之上，可以在因特网上的几乎每个JavaScript文件里都看到。对象字面量被广泛使用的原因很明确：通过简洁的语法结构来创建对象，不然还需要写几行代码来实现。ECMAScript 6 认可对象字面量的广泛使用，并用一些其它的方式扩展了语法，让对象字面量更强劲更简洁。
 
-### Property Initializer Shorthand
+### 属性初始化简写 （Property Initializer Shorthand）
 
 In ECMAScript 5 and earlier, object literals were simply collections of name-value pairs. That meant there could be some duplication when property values are being initialized. For example:
+在ECMAScript 5及更早版本 , 对象字面量是简单的 名-值 对的集合。当属性值被初始化的时候，这意味着会有一些重复。例如:
 
 ```js
 function createPerson(name, age) {
@@ -22,9 +25,9 @@ function createPerson(name, age) {
 ```
 
 The `createPerson()` function creates an object whose property names are the same as the function parameter names. The result is what appears to be duplication of `name` and `age` even though each represents a different aspect of the process.
-
+『』
 In ECMAScript 6, you can eliminate the duplication that exists around property names and local variables by using the property initializer shorthand. When the property name is going to be the same as the local variable name, you can simply include the name without a colon and value. For example, `createPerson()` can be rewritten as follows:
-
+在ECMAScript 6中，可以通过使用属性初始化简写（property initializer shorthand）省略已存在的属性名和局部变量名的重复。当属性名和局部变量名相同的时候，可以去掉冒号和值。例如，`createPerson()` 可以被重写如下：
 ```js
 function createPerson(name, age) {
     return {
@@ -35,13 +38,14 @@ function createPerson(name, age) {
 ```
 
 When a property in an object literal only has a name and no value, the JavaScript engine looks into the surrounding scope for a variable of the same name. If found, that value is assigned to the same name on the object literal. So in this example, the object literal property `name` is assigned the value of the local variable `name`.
-
+『』
 The purpose of this extension is to make object literal initialization even more succinct than it already was. Assigning a property with the same name as a local variable is a very common pattern in JavaScript and so this extension is a welcome addition.
+这个扩展的目的是使对象字面量比现在更加简洁。在JavaScript中，分配给属性和局部变量相同的名称是非常常见的模式。所以这个扩展很受欢迎。
 
-### Method Initializer Shorthand
+### 方法初始化简写（Method Initializer Shorthand）
 
 ECMAScript 6 also improves syntax for assigning methods to object literals. In ECMAScript 5 and earlier, you must specify a name and then the full function definition to add a method to an object. For example:
-
+ECMAScript 6 也改善了为对象字面量分配方法的语法。在ECMAScript 5及更早，必须指定一个方法名，最后再为对象的方法加入完整的函数定义。例如：
 ```js
 var person = {
     name: "Nicholas",
@@ -52,7 +56,7 @@ var person = {
 ```
 
 In ECMAScript 6, the syntax is made more sustained by eliminating the colon and the `function` keyword. you can then rewrite this example as follows:
-
+在ECMAScript 6中，语法原来还可以继续省略冒号和 `function` 关键字。你可以重写这个例子如下所示：
 ```js
 var person = {
     name: "Nicholas",
@@ -63,8 +67,9 @@ var person = {
 ```
 
 This shorthand syntax creates a method on the `person` object just as the previous example did. There is no difference aside from saving you some keystrokes.
+这种简写语法像前一个例子一样在 `person` 对象中创建了一个方法。除了省下了一下按键，跟之前的没有区别。
 
-### Computed Property Names
+### 可计算属性名 （Computed Property Names）
 
 JavaScript objects have long had computed property names through the use of square brackets instead of dot notation. The square brackets allow you to specify property names using variables and string literals that may contain characters that would be a syntax error if used in an identifier. For example:
 
@@ -123,7 +128,7 @@ console.log(person["last name"]);          // "Zakas"
 
 Anything you would be inside of square brackets while using bracket notation on object instances will also work for computed property names inside of object literals.
 
-## Symbols
+## 标志符 （Symbols）
 
 ECMAScript 6 symbols began as a way to create private object members, a feature JavaScript developers have long wanted. The focus was around creating properties that were not identified by string names. Any property with a string name was easy picking to access regardless of the obscurity of the name. The initial "private names" feature aimed to create non-string property names. That way, normal techniques for detecting these private names wouldn't work.
 
@@ -275,3 +280,7 @@ TODO
 ## super
 
 TODO
+
+
+
+
