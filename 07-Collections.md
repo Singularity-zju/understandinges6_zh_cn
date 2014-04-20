@@ -128,3 +128,151 @@ ECMAScript 6的sets不会强制性地检查其中的值是否重复。因此，�
 ### 浏览器支持
 
 Firefox和Chrome浏览器已经实现`Set`，但是在Chrome浏览器中你需要手动启用ECMAScript 6 特性支持：访问`chrome://flags` 并且启用"Experimental JavaScript Features". 这两个浏览器中的实现都是不完整的。两个浏览器都没有实现`for-of`并且Chrome的实现还缺少了`size()`方法。
+
+## Maps
+
+Maps对于那些来自于其它语言的开发者来说也是一个熟悉的话题。其基本思路是将一个值映射到一个唯一的键上，使用这个键你可以在任何时间轻松检索到值。在JavaScript中，开发人员通常使用普通对象来作为maps的替代品。实际上，JSON正是建立在对象所表示的键值对上的。然而，正如像模拟sets一样，对象对maps的模拟也受到相同的限制：不能创建含有非字符串的键。
+
+在ECMAScript 6之前，你可能已经看到过看起来像这样的代码：
+
+```js
+    var map = {};
+
+    // later
+    if (!map[key]) {
+        map[key] = value;
+    }
+```
+
+这段代码用了普通对象来模拟map，检测一个给定的键是否存在。这段代码最大的限制就是`key`将一定会被转换为字符串。这当然不是什么很重要的事情，除非你要用一个非字符串值来作为键。例如，也许你打算存储一些与特定的DOM元素相关的值。你也许会尝试着这样做：
+
+```js
+    // element gets converted to a string
+    var data = {},
+        element = document.getElementById("my-div");
+
+    data[element] = metadata;
+```
+
+不幸的是，`element`将hui被转换成字符串`"[Object HTMLDivElement]"`或类似的东西（精确的值可能会根据不同的浏览器而有所不同）。这样做是存在问题的，因为每一个`<div>`元素会被转换成相同的字符串，这意味着你将会不断重复使用相同的键，虽然你看起来是使用了不同的元素。出于这个原因，`Map`类型成为了JavaScript中的一个受欢迎的增强功能。
+
+ECMAScript 6的`Map`类型是一个键值对的有序列表，其中键和值都能够使用任意的类型。键`5`和键`"5"`是两个不同的键，引擎会使用`Object.is()`方法来确定两个键是否相同。你可以使用`set()`和`get()`方法来在一个map中存储和检索数据，例如：
+
+```js
+    var map = new Map();
+    map.set("name", "Nicholas");
+    map.set(document.getElementById("my-div"), { flagged: false });
+
+    // later
+    var name = map.get("name"),
+        meta = map.get(document.getElementById("my-div"));
+```
+
+在这个例子中，我们存储了两个键值对。键`"name"`中存储了一个字符串，而键`document.getElementById("my-div")`用来存储DOM元素相关的元数据。如果一个键在map中不存在，则调用`get()`时将会返回一个特殊的值`undefined`。
+
+Maps和Sets有一些相同的方法，比如`has()`用来确定一个键是否在map中存在，而`delete()`则用来从map中删除一个键值对。你也可以使用`size`来确定map中含有多少条目。
+
+```js
+    var map = new Map();
+    map.set("name", "Nicholas");
+
+    console.log(map.has("name"));   // true
+    console.log(map.get("name"));   // "Nicholas"
+    console.log(map.size);        // 1
+
+    map.delete("name");
+    console.log(map.has("name"));   // false
+    console.log(map.get("name"));   // undefined
+    console.log(map.size);        // 0
+```
+
+为了更方便地一次性添加大量数据到map中，你可以给`Map`构造函数传递一个二维数组。在实现内部，每个键值对会被存储为一个含有两个条目的数组，第一个会作为键，第二个会作为值。因此，整个map就是一个内容为两元素数组的一个数组，所以maps能够使用这种格式的数组来初始化：
+
+```js
+    var map = new Map([ ["name", "Nicholas"], ["title", "Author"]]);
+
+    console.log(map.has("name"));   // true
+    console.log(map.get("name"));   // "Nicholas"
+    console.log(map.has("title"));  // true
+    console.log(map.get("title"));  // "Author"
+    console.log(map.size);        // 2
+```
+
+如果你想处理map中的所有数据，那么你有几种选择。实际上有三种生成器方法供你选择：`keys`，它将迭代map中的所有键，`values`，将迭代map中的所有值，以及`entries`，它将迭代所有的键值对，通过返回一个包含键值对的数组。（`entries`是maps的默认迭代器）。要利用这些迭代器，最简单的方法是使用一个`for-of`循环：
+
+```js
+    for (let key of map.keys()) {
+        console.log("Key: %s", key);
+    }
+
+    for (let value of map.values()) {
+        console.log("Value: %s", value);
+    }
+
+    for (let item of map.entries()) {
+        console.log("Key: %s, Value: %s", item[0], item[1]);
+    }
+
+    // same as using map.entries()
+    for (let item of map) {
+        console.log("Key: %s, Value: %s", item[0], item[1]);
+    }
+```
+
+当遍历键或值时，你将会每次从循环中接收到一个值。当遍历条目时，你会接收到一个数组，其第一项是键，第二项是值。
+
+另一种遍历项的方法是使用`forEach()`方法。这个方法的工作方式和数组的`forEach()`方法类似。你需要传递一个函数，这个函数将在调用时接收三个参数：值，键和map本身。例如：
+
+```js
+    map.forEach(function(value, key, map)) {
+        console.log("Key: %s, Value: %s", key, value);
+    });
+```
+
+类似于数组的`forEach()`，你可以传递可选的第二个参数来指定回调函数中的`this`值：
+
+```js
+    var reporter = {
+        report: function(key, value) {
+            console.log("Key: %s, Value: %s", key, value);
+        }
+    };
+
+    map.forEach(function(value, key, map) {
+        this.report(key, value);
+    }, reporter);
+```
+
+在这里，回调函数中的`this`值是`reporter`。这使得`this.report()`能够正常工作。
+
+与此相对的是对普通对象中迭代值的笨拙方式。
+
+```js
+    for (let key in object) {
+
+        // make sure it's not from the prototype!
+        if (object.hasOwnProperty(key)) {
+            console.log("Key: %s, Value: %s", key, object[key]);
+        }
+
+    }
+```
+
+当你将对象作为map使用时，在`for-in`循环中原型的属性也许会泄露，这将始终是一个需要考虑的问题。你必须使用`hasOwnProperty()`来保证你只取得你所需要的那些属性。当然，如果对象有方法，则你也必须筛选掉它们：
+
+```js
+    for (let key in object) {
+
+        // make sure it's not from the prototype or a function!
+        if (object.hasOwnProperty(key) && typeof object[key] !== "function") {
+            console.log("Key: %s, Value: %s", key, object[key]);
+        }
+
+    }
+```
+
+Map的迭代功能让您可以集中精力来处理数据，而无需担心额外的信息出现在你的代码中。这是map在存储键值对中，相对于普通对象来说所具备的的巨大优势。
+
+### 浏览器支持
+
+Firefox和Chrome浏览器已经实现了`Map`，然而，在Chrome中你需要手动启用ECMAScript 6 特性支持：访问`chrome://flags`并且启用"Experimental JavaScript Features"。这两个浏览器的实现都是不完整的。两个浏览器都没有实现任何一个能够在`for-of`中使用的生成器方法，并且Chrome的实现还缺乏了`size`方法（这个方法目前在ECMAScript 6草案中）。
