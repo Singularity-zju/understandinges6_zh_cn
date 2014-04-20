@@ -8,39 +8,48 @@
 
 ECMAScrit 6将`Set`类型作为set的简单实现引入了JavaScript中。您可以通过使用'添加（）`方法添加值到一组，看看有多少项目是在集合使用`大小（）`：你可以使用`add()`方法向set中添加新值，或使用`size()`方法来查询目前set中有多少条目。
 
+```js
     var items = new Set();
     items.add(5);
     items.add("5");
 
     console.log(items.size());    // 2
+```
 
 ECMAScript 6的sets不会强制性地检查其中的值是否重复。因此，一个set中可以同时包含数字`5`和字符串`"5"`（实际上在内部，它使用`Object.is()`来做比较）。如果`add()`方法对同样的值上被调用了不止一次，那么所有在首次调用之后的调用都会被直接忽略掉。
 
+```js
     var items = new Set();
     items.add(5);
     items.add("5");
     items.add(5);     // oops, duplicate - this is ignored
 
     console.log(items.size());    // 2
+```
 
 你可以直接用一个数组来初始化set，`Set`的构造器将会保证只有其中的非重复值会被使用到：
 
+```js
     var items = new Set([1, 2, 3, 4, 5, 5, 5, 5]);
     console.log(items.size());    // 5
+```
 
 在这个例子中，一个包含一系列数字的数组被用来初始化set。数`5`只有即使它出现四次在数组中出现一次的集合。其中数字5在set中只出现了一次，虽然在数组中它却有4次出现。这个功能可以帮助我们很方便地将现有的代码或者JSON结构的数据转化为sets。
 
 你可以用过`has()`方法来检查哪些元素已经存在于set中：
 
+```js
     var items = new Set();
     items.add(5);
     items.add("5");
 
     console.log(items.has(5));    // true
     console.log(items.has(6));    // false
+```
 
 最后，你可以通过使用`delete()`方法从set中删除一个条目：
 
+```js
     var items = new Set();
     items.add(5);
     items.add("5");
@@ -50,6 +59,7 @@ ECMAScript 6的sets不会强制性地检查其中的值是否重复。因此，�
     items.delete(5)
 
     console.log(items.has(5));    // false
+```
 
 所有的这些知识都将帮助你掌握一个非常简单的跟踪唯一无序值的方法。
 
@@ -58,31 +68,37 @@ ECMAScript 6的sets不会强制性地检查其中的值是否重复。因此，�
 
 虽然没有办法随机访问set中的一个值，我们可以通过ECMAScript 6中的新语句`for-of`来迭代访问sets中的所有值。该`for-of`语句是一个循环，它会遍历set的所有值，包括数组和类数组结构。你可以通过这样来输出一个set中的所有值：
 
+```js
     var items = new Set([1, 2, 3, 4, 5]);
 
     for (let num of items) {
         console.log(num);
     }
+```
 
 这段代码将会按照条目被添加到set中的顺序将set中的条目输出到控制台中。
 
 如果你只是单纯想要将set中的值塞回数组中去，那么你可以使用`Array.from()`方法来很方便地达成这个目的。
 
+```js
     var items = new Set([1, 2, 3, 4, 5]);
     var array = Array.from(items);
+```
 
 通过这种方法，你可以很简单地去除掉数组中的重复值：
 
+```js
     function dedupe(array) {
         return Array.from(new Set(array));
     }
 
-
+```
 
 ### 示例
 
 目前，如果你想跟踪记录一个唯一值，最常用的的方法就是使用一个对象并且将这个唯一值作为具有真值的对象属性添加给对象。例如，这里有个CSS Lint规则用来检查重复的属性。现在我们有一个对象用以跟踪记录像这样的CSS属性：
 
+```js
     var properties = {
         "width": 1,
         "height": 1
@@ -91,9 +107,11 @@ ECMAScript 6的sets不会强制性地检查其中的值是否重复。因此，�
     if (properties[someName]) {
         // do something
     }
+```
 
 以这种目的来使用对象必须保证给属性赋予一个真值，这样才能保证`if`语句能够正常工作。（另一种选择是使用`in`操作符，但是开发者一般很少选择这样做。）这整个过程可以通过使用一个set来大大简化：
 
+```js
     var properties = new Set();
     properties.add("width");
     properties.add("height");
@@ -101,6 +119,7 @@ ECMAScript 6的sets不会强制性地检查其中的值是否重复。因此，�
     if (properties.has(someName)) {
         // do something
     }
+```
 
 鉴于我们关心的只是这个属性之前有没有被使用过，而不关心它被使用了多少次（因为这里并没有任何额外的相关联的元数据），所以我们使用set会更加方便。
 
