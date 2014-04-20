@@ -276,3 +276,73 @@ Map的迭代功能让您可以集中精力来处理数据，而无需担心额�
 ### 浏览器支持
 
 Firefox和Chrome浏览器已经实现了`Map`，然而，在Chrome中你需要手动启用ECMAScript 6 特性支持：访问`chrome://flags`并且启用"Experimental JavaScript Features"。这两个浏览器的实现都是不完整的。两个浏览器都没有实现任何一个能够在`for-of`中使用的生成器方法，并且Chrome的实现还缺乏了`size`方法（这个方法目前在ECMAScript 6草案中）。
+
+
+## Weakmaps
+
+Weakmaps类似于普通的Maps，因为它们的值都映射到一个唯一的键上 。该键可以在之后用来检索值。Weakmaps和Maps有所不同因为它的键必须是一个对象，而不能是一个基本类型。这看起来似乎是一个奇怪的限制，但是它实际上是使得weakmaps与众不同并且有用的核心。
+
+一个weakmap仅持有键的弱引用，这意味着在weakmap内部的引用并不会阻止对于对象的垃圾回收。当对象被垃圾收集器销毁时，weakmap将自动删除该对象所标识的键值对。weakmaps的典型使用场景是创建一个与特定DOM元素相关联的对象。例如，jQuery在内部对于每个引用过的DOM元素都维护了一个对象缓存。使用weakmap将允许jQuery在DOM元素被从文档中删除时，能够自动释放与该DOM元素相关联的内存。
+
+ECMAScript 6的`WeakMap`类型是一个键值对的无序列表，其中键必须是一个非空的对象，值则可以是任何类型。`WeakMap`的接口非常类似于`Map`，从它们都用`set()`和`get()`来增加和检索数据就可以看出：
+
+```js
+    var map = new WeakMap(),
+        element = document.querySelector(".element");
+
+    map.set(element, "Original");
+
+    // later
+    var value = map.get(element);
+    console.log(value);             // "Original"
+
+    // later still - remove reference
+    element.parentNode.removeChild(element);
+    element = null;
+
+    value = map.get(element);
+    console.log(value);             // undefined
+```
+
+在这个例子中，一个键值对被存储了起来。键是一个DOM元素用于存储一个对应的字符串值。该值后来通过将DOM元素传递给`get()`方法来被检索出。如果在这之后，DOM元素被从文档中删除，并且对应的变量被设置成`null`，那么weakmap中的所对应的数据也会被同时删除，在这之后，下一次对这个DOM元素所关联的数据的检索行为会失败。
+
+这个例子有一点点误导，因为第二次对`map.get(element)`的调用是使用的`null`值（因为`element`变量此时已经被设置为`null`），而并不是DOM元素的引用。你不能使用`null`作为weakmaps的键，所以这段代码其实并没有真正执行一次合法的检索。遗憾的是，并没有一个接口来允许你查询一个引用是否已经被清理（通常由于引用不再存在）
+
+> weakmap的`set()`方法将会在你试图使用基本类型作为键时抛出一个错误。如果你想用基本类型作为键，那么你最好使用`Map`而不是`Weakmap`。
+
+Weakmaps也有`has()`方法来确定一个键是否存在于weakmap中，同时，也有`delete()`方法来删除一个键值对。
+
+```js
+    var map = new WeakMap(),
+        element = document.querySelector(".element");
+
+    map.set(element, "Original");
+
+    console.log(map.has(element));   // true
+    console.log(map.get(element));   // "Original"
+
+    map.delete(element);
+    console.log(map.has(element));   // false
+    console.log(map.get(element));   // undefined
+```
+>
+
+这里，DOM元素被再次用作一个weakmap的键。`has()`方法在检查一个引用是否已经作为一个键存在于weakmap中时是非常有用的。请记住，这个语句只有在你的键关联到一个非null的引用时才有效。通过使用`delete()`方法，键能够从weakmap中被强制移除，此时再检索该键，`has()`将返回false而`get()`将返回`undefined`。
+
+### 用途和局限性
+
+Weakmaps有一​​个非常特殊的使用场景你需要牢牢记住，即用于映射那些将来可能会消失的对象。这种能够释放那些与对象相关联的内存的能力对于那些要用自定义的对象去包装DOM元素的JavaScript库（例如jQuery和YUI）来说是非常有用的。一旦Weakmaps的实现被完成并且广泛使用开来，也许会有更多的使用场景。所以在短期内，如果你无法找到一个使用weakmaps的好场景，请不要感到悲伤。
+
+在许多情况下，一个普通的map可能就是你想要的东西。Weakmaps的一大限制在于它是无法枚举的，你无法跟踪记录其中到底有多少条目。此外，你也没有一种方法来检索其中所有的键。如果你需要这型功能，那么你就需要使用一个普通的map。如果你并不需要这样，并且你只想使用对象来作为键，则使用一个weakmap可能是你的好选择。
+
+### 浏览器支持
+
+Firefox和Chrome浏览器已经实现了`WeakMap`，然而，在Chrome中你需要手动启用ECMAScript 6 特性支持：访问`chrome://flags`并且启用"Experimental JavaScript Features"。这两种浏览器的实现都是按照目前的稻草人规范（strawman specification）来完成的。（weakmaps还尚未出现在ECMAScript 6草案中）
+
+## 小结
+
+TODO
+
+ECMAScript 6的sets是一个很受欢迎的语言增强功能。它们允许你轻松地创建唯一值的集合，而不用担心强制类型转换。你可以非常轻松地给一个set添加或删除条目，即使我们并没有一种方法来直接存取set中的条目。但如果需要的话，我们仍旧可以通过ECMAScript 6的`for-of`来遍历set中的所有项来达到这个目的。、
+
+由于ECMAScript 6还没有完成，它的实现和规范有可能在其它浏览器开始加入`Set`之前，就会发生变更。在现在，它仍然被认为是一个试验性的API，并且不应该被用在产品代码中。这篇文章，以及其它有关ECMAScript 6的文章，仅仅是为了给即将到来的这些功能做一个预览。
