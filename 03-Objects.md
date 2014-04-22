@@ -72,7 +72,7 @@ This shorthand syntax creates a method on the `person` object just as the previo
 ### 可计算属性名 （Computed Property Names）
 
 JavaScript objects have long had computed property names through the use of square brackets instead of dot notation. The square brackets allow you to specify property names using variables and string literals that may contain characters that would be a syntax error if used in an identifier. For example:
-
+JavaScript对象早就已经可以通过方括号代替点表示法来计算属性名（computed property names）了。方括号允许使用包含字符的变量和字符串字面量指定属性名，如果在标识符中包含字符的话，这会导致一个语法错误。例如：
 ```js
 var person = {},
     lastName = "last name";
@@ -85,8 +85,10 @@ console.log(person[lastName]);          // "Zakas"
 ```
 
 Both of the property names in this example have a space, making it impossible to reference those names using dot notation. However, bracket notation allows any string value to be used as a property name.
+这个例子中的属性名都包含空格，这让使用点表示法来引用这些属性名变得不可能。不过，方括号表示法可以像使用属性名那样使用字符串值。
 
 In ECMAScript 5, you could use string literals as property names in object literals, such as:
+在ECMAScript 5，在对象字面量中，你可以像使用属性名那样使用字符串字面量，例如：
 
 ```js
 var person = {
@@ -97,9 +99,9 @@ console.log(person["first name"]);      // "Nicholas"
 ```
 
 If you could provide the string literal inside of the object literal property definition then you were all set. If, however, the property name was contained in a variable or had to be calculated, then there was no way to define that property using an object literal.
-
+如果可以在函数字面量属性定义内部保存字符串字面量，那所有就都设置好了。可是，如果在一个变量中包含属性名，或者属性名需要被计算，那对象字面量中没有方法来定义那个属性。
 ECMAScript 6 adds computed property names to object literal syntax by using the same square bracket notation that has been used to reference computed property names in object instances. For example:
-
+ECMAScript 6 通过使用相同的方括号表示法为对象字面量语法引入了可计算属性名（computed property names），这种方式可以在对象实例中被用来引用可计算对象属性名（computed property names），例如：
 ```js
 var lastName = "last name";
 
@@ -113,7 +115,7 @@ console.log(person[lastName]);          // "Zakas"
 ```
 
 The square brackets inside of the object literal indicate that the property name is computed, so its contents are evaluated as a string. That means you can also include expressions such as:
-
+在函数字面量中的方括号表示属性名可以被计算，于是它的内容被当作一个字符串。这意味着可以包含表达式，例如：
 ```js
 var suffix = " name";
 
@@ -127,6 +129,7 @@ console.log(person["last name"]);          // "Zakas"
 ```
 
 Anything you would be inside of square brackets while using bracket notation on object instances will also work for computed property names inside of object literals.
+在对象实例使用方括号语法的同时，同样适用于对象字面量中计算属性名（computed property names）。
 
 ## 标志符 （Symbols）
 
