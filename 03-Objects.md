@@ -1,7 +1,7 @@
 # 对象 （Objects）
 
 A lot of ECMAScript 6 focused on improving the utility of objects. The focus makes sense given that nearly every value in JavaScript is represented by some type of object. Additionally, the number of objects used in an average Javascript program continues to increase, meaning that developers are writing more objects all the time. With more objects comes the necessity to use them more effectively.
-ECMAScript 6的很多方面都致力于改善对象的使用。『』。此外，平均每个JavaScript程序中对象的数量持续增长，意味着开发者每时每刻在写更多的对象。更多的对象带来了更有效率的使用它们的必要性。
+ECMAScript 6的很多方面都致力于改善对象的使用。重点合理地考虑到了JavaScript中的每个值都被表现为对象。此外，平均每个JavaScript程序中对象的数量持续增长，意味着开发者每时每刻在写更多的对象。更多的对象带来了更有效率的使用它们的必要性。
 ECMAScript 6 improves objects in a number of ways, from simple syntax to new ways of manipulating and interacting with objects.
 ECMAScript 6 通过一些方式改善了对象， 从简洁的语法到新的操作以及与对象的交互的方式。
 
@@ -25,7 +25,7 @@ function createPerson(name, age) {
 ```
 
 The `createPerson()` function creates an object whose property names are the same as the function parameter names. The result is what appears to be duplication of `name` and `age` even though each represents a different aspect of the process.
-『』
+'createPerson'函数创建了一个属性名跟函数参数名一样的对象。结果似乎'name'和'age'重复了，即使每个表示着不同的处理方面。
 In ECMAScript 6, you can eliminate the duplication that exists around property names and local variables by using the property initializer shorthand. When the property name is going to be the same as the local variable name, you can simply include the name without a colon and value. For example, `createPerson()` can be rewritten as follows:
 在ECMAScript 6中，可以通过使用属性初始化简写（property initializer shorthand）省略已存在的属性名和局部变量名的重复。当属性名和局部变量名相同的时候，可以去掉冒号和值。例如，`createPerson()` 可以被重写如下：
 ```js
@@ -38,7 +38,7 @@ function createPerson(name, age) {
 ```
 
 When a property in an object literal only has a name and no value, the JavaScript engine looks into the surrounding scope for a variable of the same name. If found, that value is assigned to the same name on the object literal. So in this example, the object literal property `name` is assigned the value of the local variable `name`.
-『』
+当一个对象字面量的属性只有名字没有值时，JavaScript引擎会在附近的域寻找有同样名称的变量。如果找到了，值会被赋给在对象字面量中相同名称的变量。所以在这个例子中，对象字面量属性'name'就是局部变量'name'的值。
 The purpose of this extension is to make object literal initialization even more succinct than it already was. Assigning a property with the same name as a local variable is a very common pattern in JavaScript and so this extension is a welcome addition.
 这个扩展的目的是使对象字面量比现在更加简洁。在JavaScript中，分配给属性和局部变量相同的名称是非常常见的模式。所以这个扩展很受欢迎。
 
@@ -135,7 +135,7 @@ Anything you would be inside of square brackets while using bracket notation on 
 
 ECMAScript 6 symbols began as a way to create private object members, a feature JavaScript developers have long wanted. The focus was around creating properties that were not identified by string names. Any property with a string name was easy picking to access regardless of the obscurity of the name. The initial "private names" feature aimed to create non-string property names. That way, normal techniques for detecting these private names wouldn't work.
 ECMAScript 6中的symbol开始视为创建私有成员的方式，一个JavaScript开发者想要很久的功能。重点围绕在不通过字符串名创建属性。
-任何以字符串命名的属性无论名称有多费解，都可以被很容易的被访问到。初始“私有变量”功能是为了创建非字符串属性。那么，检测这些私有名称的一般方法不会工作。
+任何以字符串命名的属性无论名称有多费解，都可以被很容易的被访问到。初始“私有变量”功能是为了创建非字符串属性名。那么，检测这些私有名称的一般方法不会工作。
 The private names proposal eventually evolved into ECMAScript 6 symbols. While the implementation details remained the same (non-string values for property identifiers), TC-39 dropped the requirement that these properties be private. Instead, the properties would be categorized separately, being non-enumerable by default by still discoverable.
 私有变量提案最终进化成了ECMAScript 6的Symbol。实现细节的时候仍然是相同的（属性标志符的非字符串值），TC-39停止了这些属性被私有的要求。
 属性应该另分类，默认不可枚举『』。
