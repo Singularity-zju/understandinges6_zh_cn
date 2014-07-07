@@ -16,7 +16,7 @@ ECMAScript 5将所有的操作都保持在16位编码单元中，这意味着你
 var text = "𠮷";
 
 console.log(text.length); // 2
-console.log(/^.$./.test(text));  //false
+console.log(/^.$/.test(text));  //false
 console.log(text.charAt(0)) // '"'
 console.log(text.charAt(1)) // '"'
 console.log(text.charCodeAt(0)) // 55362
