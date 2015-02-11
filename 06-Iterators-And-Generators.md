@@ -1,14 +1,22 @@
-# Iterators and Generators
+# 迭代器和生成器 (Iterators and Generators)
 
-Iterators have been used in many programming languages as a way to more easily work with collections of data. In ECMAScript 6, JavaScript adds iterators as an important feature of the language. When coupled with new array methods and new types of collections (such as sets and maps), iterators become even more important for efficient processing of data.
+在众多的编程语言中, 迭代器能更好地处理各种类型的数据集. 在 ECMAScript 6 中,
+JavaScript 添加了迭代器这一重要特性. 新增的数组方法和数据集类型(比如集合和映射)
+对于迭代器高效处理数据更是如虎添翼.
 
-## What are Iterators?
+## 迭代器是什么
 
-Iterators are nothing more than objects with a certain interface. That interface consists of a method called `next()` that returns a result object. The result object has two properties, `value`, which is the next value, and `done`, which is a boolean value that's `true` when there are no more values to return. The iterator keeps an internal pointer to a location within a collection of values and, with each call to `next()`, returns the next appropriate value.
+迭代器是具有一定接口的对象. 这个接口由一个返回结果对象的方法组成, 该方法称之为
+`next()`. 结果对象有两个属性,`value`属性是下一个值, 而`done`属性是一个布尔值. 当
+迭代器没有更多的值能返回时,该布尔值为`true`, 其他时候为`false`. 迭代器用一个内部
+指针来记录值在数据集中的相应位置, 并在每次`next()`的调用时返回下一个值.
 
-If you call `next()` after the last value has been returned, the method returns `done` as `true` and `value` contains the return value for the iterator. The *return value* is not considered part of the data set, but rather a final piece of related data or `undefined` if no such data exists. (This concept will become clearer in the generators section later in this chapter.)
+如果你在最后一个值已经被返回的情况下调用`next()`方法, 该方法返回的`done`属性为
+`true`, `value`属性为迭代器的返回值. 迭代器的返回值并不会被当成数据集的一部分,却
+会是相关数据的最后部分或者`undefined`如果没有相关的数据存在. (这个概念在本章节的
+生成器部分会变得更加清晰.)
 
-With that understanding, it's fairly easy to create an iterator using ECMAScript 5, for example:
+有了上述的理解, 在 ECMAScript 6 中构造一个迭代器变得相当简单, 示例如下:
 
 ```js
 function createIterator(items) {
@@ -41,9 +49,13 @@ console.log(iterator.next());           // "{ value: undefined, done: true }"
 console.log(iterator.next());           // "{ value: undefined, done: true }"
 ```
 
-The `createIterator()` function in this example returns an object with a `next()` method. Each time the method is called, the next value in the `items` array is returned as `value`. When `i` is 4, `items[i++]` returns `undefined` and `done` is `true`, which fulfills the special last case for iterators in ECMAScript 6.
+这个`createIterator()`函数返回了含有`next()`方法的对象.每次该方法被调用的时候,
+`items` 数组中的下一个值被`value`返回. 当 `i` 是4的时候, `value` 返回
+`undefined`, `done` 返回 `true`. 这个满足了 ECMAScript 6 中关于迭代器的最后一个
+特殊情况.
 
-ECMAScript 6 makes use of iterators in a number of places to make dealing with collections of data easier, so having a good basic understanding allows you to better understand the language as a whole.
+ECMASCRIPT 6 在众多地方使用迭代器使得数据集的处理变得更加简单, 因此对迭代器的良
+好理解能帮助你更好地理解整个语言.
 
 ## Generators
 
